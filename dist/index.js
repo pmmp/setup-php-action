@@ -61,7 +61,7 @@ function run() {
                 yield (0, exec_1.exec)(path.join(scriptsPath, 'install-dependencies.sh'));
             }
             core.info('Adding PHP to PATH');
-            core.addPath(absoluteInstallPath);
+            core.addPath(path.join(absoluteInstallPath, 'bin'));
             core.info('Done!');
         }
         catch (error) {
