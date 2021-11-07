@@ -1,11 +1,14 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Setup PHP for PocketMine-MP'
+description: 'Build and install PHP for PocketMine-MP and related projects'
+author: 'pmmp'
 inputs:
-  milliseconds: # change this
+  php-version:
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: 'PHP version to build and install'
+  install-path:
+    required: true
+    description: 'Path to install the binary to'
+
 runs:
   using: 'node12'
   main: 'dist/index.js'
