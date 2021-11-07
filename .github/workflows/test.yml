@@ -21,4 +21,5 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ./
         with:
-          milliseconds: 1000
+          php-version: 8.0.12
+          install-path: ${{ github.workspace }/bin
