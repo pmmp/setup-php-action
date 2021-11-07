@@ -8,6 +8,7 @@ async function run(): Promise<void> {
   try {
     const phpVersion: string = core.getInput('php-version')
     const installPath: string = core.getInput('install-path')
+    const absoluteInstallPath: string = path.resolve(installPath)
 
     const scriptsPath: string = path.dirname(__dirname)
     const buildShPath: string = path.join(scriptsPath, 'build.sh')
@@ -16,23 +17,23 @@ async function run(): Promise<void> {
     )}`
 
     const hitCacheKey: string | undefined = await cache.restoreCache(
-      [installPath],
+      [absoluteInstallPath],
       primaryCacheKey
     )
 
     if (hitCacheKey === undefined) {
       core.info(
-        `Compiling new binaries: PHP ${phpVersion} to be installed in ${installPath}`
+        `Compiling new binaries: PHP ${phpVersion} to be installed in ${absoluteInstallPath}`
       )
-      await exec(buildShPath, [phpVersion, installPath])
+      await exec(buildShPath, [phpVersion, absoluteInstallPath])
       core.info('Storing cache')
-      await cache.saveCache([installPath], primaryCacheKey)
+      await cache.saveCache([absoluteInstallPath], primaryCacheKey)
     } else {
       core.info('Installing dependencies for cached PHP build')
       await exec(path.join(scriptsPath, 'install-dependencies.sh'))
     }
     core.info('Adding PHP to PATH')
-    core.addPath(installPath)
+    core.addPath(absoluteInstallPath)
     core.info('Done!')
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)

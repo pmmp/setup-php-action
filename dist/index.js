@@ -45,22 +45,23 @@ function run() {
         try {
             const phpVersion = core.getInput('php-version');
             const installPath = core.getInput('install-path');
+            const absoluteInstallPath = path.resolve(installPath);
             const scriptsPath = path.dirname(__dirname);
             const buildShPath = path.join(scriptsPath, 'build.sh');
             const primaryCacheKey = `php-build-generic-${phpVersion}-${(0, glob_1.hashFiles)(buildShPath)}`;
-            const hitCacheKey = yield cache.restoreCache([installPath], primaryCacheKey);
+            const hitCacheKey = yield cache.restoreCache([absoluteInstallPath], primaryCacheKey);
             if (hitCacheKey === undefined) {
-                core.info(`Compiling new binaries: PHP ${phpVersion} to be installed in ${installPath}`);
-                yield (0, exec_1.exec)(buildShPath, [phpVersion, installPath]);
+                core.info(`Compiling new binaries: PHP ${phpVersion} to be installed in ${absoluteInstallPath}`);
+                yield (0, exec_1.exec)(buildShPath, [phpVersion, absoluteInstallPath]);
                 core.info('Storing cache');
-                yield cache.saveCache([installPath], primaryCacheKey);
+                yield cache.saveCache([absoluteInstallPath], primaryCacheKey);
             }
             else {
                 core.info('Installing dependencies for cached PHP build');
                 yield (0, exec_1.exec)(path.join(scriptsPath, 'install-dependencies.sh'));
             }
             core.info('Adding PHP to PATH');
-            core.addPath(installPath);
+            core.addPath(absoluteInstallPath);
             core.info('Done!');
         }
         catch (error) {
