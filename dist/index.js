@@ -35,29 +35,29 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const core = __importStar(__nccwpck_require__(2186));
 const cache = __importStar(__nccwpck_require__(7799));
+const core = __importStar(__nccwpck_require__(2186));
+const path = __importStar(__nccwpck_require__(5622));
 const exec_1 = __nccwpck_require__(1514);
 const glob_1 = __nccwpck_require__(8090);
-const path = __importStar(__nccwpck_require__(5622));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const phpVersion = core.getInput('php-version');
             const installPath = core.getInput('install-path');
             const scriptsPath = path.dirname(__dirname);
-            const buildShPath = scriptsPath + path.sep + 'build.sh';
-            const primaryCacheKey = 'php-build-generic-' + phpVersion + '-' + (0, glob_1.hashFiles)(buildShPath);
+            const buildShPath = path.join(scriptsPath, 'build.sh');
+            const primaryCacheKey = `php-build-generic-${phpVersion}-${(0, glob_1.hashFiles)(buildShPath)}`;
             const hitCacheKey = yield cache.restoreCache([installPath], primaryCacheKey);
-            if (hitCacheKey == undefined) {
-                core.info('Compiling new binaries: PHP ' + phpVersion + ' to be installed in ' + installPath);
+            if (hitCacheKey === undefined) {
+                core.info(`Compiling new binaries: PHP ${phpVersion} to be installed in ${installPath}`);
                 yield (0, exec_1.exec)(buildShPath, [phpVersion, installPath]);
                 core.info('Storing cache');
                 yield cache.saveCache([installPath], primaryCacheKey);
             }
             else {
                 core.info('Installing dependencies for cached PHP build');
-                yield (0, exec_1.exec)(scriptsPath + path.sep + 'install-dependencies.sh');
+                yield (0, exec_1.exec)(path.join(scriptsPath, 'install-dependencies.sh'));
             }
             core.info('Adding PHP to PATH');
             core.addPath(installPath);
