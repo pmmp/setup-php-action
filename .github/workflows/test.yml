@@ -23,3 +23,6 @@ jobs:
         with:
           php-version: 8.0.12
           install-path: ${{ github.workspace }}/bin
+
+      - name: Test that PHP is installed and working
+        run: php -i
