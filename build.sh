@@ -3,6 +3,15 @@
 VERSION="$1"
 INSTALL_DIR="$2"
 
+if [[ "$VERSION" == "" ]]; then
+	echo "No version specified"
+	exit 1
+fi
+if [[ "$INSTALL_DIR" == "" ]]; then
+       echo "No install path specified"
+       exit 1
+fi
+
 sudo apt update && sudo apt install -y \
 	re2c \
 	libtool \
