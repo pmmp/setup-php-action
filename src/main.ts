@@ -33,7 +33,7 @@ async function run(): Promise<void> {
       await exec(path.join(scriptsPath, 'install-dependencies.sh'))
     }
     core.info('Adding PHP to PATH')
-    core.addPath(absoluteInstallPath)
+    core.addPath(path.join(absoluteInstallPath, 'bin'))
     core.info('Done!')
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
