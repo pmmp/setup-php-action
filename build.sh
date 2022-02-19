@@ -49,7 +49,7 @@ function build_leveldb {
 	make -j4 install
 	cd ..
 }
-build_leveldb 84348b9b826cc280cde659185695d2170b54824c
+build_leveldb 1c7564468b41610da4f498430e795ca4de0931ff
 
 rm -rf php-build
 git clone https://github.com/pmmp/php-build.git
@@ -61,11 +61,11 @@ echo '"chunkutils2",,"https://github.com/pmmp/ext-chunkutils2.git",,,"extension"
 echo '"morton",,"https://github.com/pmmp/ext-morton.git",,,"extension",' >> share/php-build/extension/definition
 PHP_BUILD_INSTALL_EXTENSION="\
 pthreads=@4.0.0 \
-yaml=2.2.1 \
-leveldb=@60763a09bf5c7a10376d16e25b078b99a35c5c37 \
+yaml=2.2.2 \
+leveldb=@317fdcd8415e1566fc2835ce2bdb8e19b890f9f3 \
 chunkutils2=@0.3.1 \
 morton=@0.1.2 \
-igbinary=3.2.1 \
+igbinary=3.2.7 \
 crypto=0.3.2 \
 " PHP_BUILD_ZTS_ENABLE=on PHP_BUILD_CONFIGURE_OPTS='--with-gmp' ./bin/php-build "$VERSION" "$INSTALL_DIR" || exit 1
 
