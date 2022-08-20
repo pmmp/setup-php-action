@@ -17,11 +17,14 @@ jobs:
           npm run all
   test: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [8.0.21, 8.1.8]
     steps:
       - uses: actions/checkout@v3
       - uses: ./
         with:
-          php-version: 8.0.12
+          php-version: ${{ matrix.php }}
           install-path: ${{ github.workspace }}/bin
 
       - name: Test that that PHP has been added to PATH correctly
