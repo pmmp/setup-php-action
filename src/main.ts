@@ -15,6 +15,7 @@ async function run(): Promise<void> {
     const primaryCacheKey = `php-build-generic-${phpVersion}-${hashFiles(
       buildShPath
     )}`
+    core.info(`Looking for cached binaries under key ${primaryCacheKey}`)
 
     const hitCacheKey: string | undefined = await cache.restoreCache(
       [absoluteInstallPath],
