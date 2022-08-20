@@ -52,7 +52,8 @@ function run() {
             const absoluteInstallPath = path.resolve(installPath);
             const scriptsPath = path.dirname(__dirname);
             const buildShPath = path.join(scriptsPath, 'build.sh');
-            const primaryCacheKey = `php-build-generic-${phpVersion}-${(0, glob_1.hashFiles)(buildShPath)}`;
+            const buildShHash = yield (0, glob_1.hashFiles)(buildShPath);
+            const primaryCacheKey = `php-build-generic-${phpVersion}-${buildShHash}`;
             core.info(`Looking for cached binaries under key ${primaryCacheKey}`);
             const hitCacheKey = yield cache.restoreCache([absoluteInstallPath], primaryCacheKey);
             if (hitCacheKey === undefined) {

@@ -12,9 +12,9 @@ async function run(): Promise<void> {
 
     const scriptsPath: string = path.dirname(__dirname)
     const buildShPath: string = path.join(scriptsPath, 'build.sh')
-    const primaryCacheKey = `php-build-generic-${phpVersion}-${hashFiles(
-      buildShPath
-    )}`
+    const buildShHash: string = await hashFiles(buildShPath)
+    const primaryCacheKey = `php-build-generic-${phpVersion}-${buildShHash}`
+
     core.info(`Looking for cached binaries under key ${primaryCacheKey}`)
 
     const hitCacheKey: string | undefined = await cache.restoreCache(
