@@ -2,7 +2,8 @@ import * as cache from '@actions/cache'
 import * as core from '@actions/core'
 import * as path from 'path'
 import {exec} from '@actions/exec'
-import {hashFiles} from '@actions/glob'
+import * as crypto from 'crypto'
+import {promises as fsPromises} from 'fs'
 
 async function run(): Promise<void> {
   try {
@@ -12,7 +13,15 @@ async function run(): Promise<void> {
 
     const scriptsPath: string = path.dirname(__dirname)
     const buildShPath: string = path.join(scriptsPath, 'build.sh')
-    const buildShHash: string = await hashFiles(buildShPath)
+    const buildShContents: string = await fsPromises.readFile(
+      buildShPath,
+      'utf8'
+    )
+    const buildShHash: string = crypto
+      .createHash('sha256')
+      .update(buildShContents)
+      .digest('hex')
+
     const primaryCacheKey = `php-build-generic-${phpVersion}-${buildShHash}`
 
     core.info(`Looking for cached binaries under key ${primaryCacheKey}`)
