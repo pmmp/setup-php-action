@@ -10,6 +10,7 @@ async function run(): Promise<void> {
     const phpVersion: string = core.getInput('php-version')
     const installPath: string = core.getInput('install-path')
     const absoluteInstallPath: string = path.resolve(installPath)
+    const pthreadsVersion: string = core.getInput('pthreads-version')
 
     const scriptsPath: string = path.dirname(__dirname)
     const buildShPath: string = path.join(scriptsPath, 'build.sh')
@@ -22,7 +23,7 @@ async function run(): Promise<void> {
       .update(buildShContents)
       .digest('hex')
 
-    const primaryCacheKey = `php-build-generic-${phpVersion}-${buildShHash}`
+    const primaryCacheKey = `php-build-generic-${phpVersion}-${buildShHash}-pthreads-${pthreadsVersion}`
 
     core.info(`Looking for cached binaries under key ${primaryCacheKey}`)
 
@@ -35,7 +36,11 @@ async function run(): Promise<void> {
       core.info(
         `Compiling new binaries: PHP ${phpVersion} to be installed in ${absoluteInstallPath}`
       )
-      await exec(buildShPath, [phpVersion, absoluteInstallPath])
+      await exec(buildShPath, [
+        phpVersion,
+        absoluteInstallPath,
+        pthreadsVersion
+      ])
       core.info('Storing cache')
       await cache.saveCache([absoluteInstallPath], primaryCacheKey)
     } else {

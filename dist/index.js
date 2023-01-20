@@ -51,6 +51,7 @@ function run() {
             const phpVersion = core.getInput('php-version');
             const installPath = core.getInput('install-path');
             const absoluteInstallPath = path.resolve(installPath);
+            const pthreadsVersion = core.getInput('pthreads-version');
             const scriptsPath = path.dirname(__dirname);
             const buildShPath = path.join(scriptsPath, 'build.sh');
             const buildShContents = yield fs_1.promises.readFile(buildShPath, 'utf8');
@@ -58,12 +59,16 @@ function run() {
                 .createHash('sha256')
                 .update(buildShContents)
                 .digest('hex');
-            const primaryCacheKey = `php-build-generic-${phpVersion}-${buildShHash}`;
+            const primaryCacheKey = `php-build-generic-${phpVersion}-${buildShHash}-pthreads-${pthreadsVersion}`;
             core.info(`Looking for cached binaries under key ${primaryCacheKey}`);
             const hitCacheKey = yield cache.restoreCache([absoluteInstallPath], primaryCacheKey);
             if (hitCacheKey === undefined) {
                 core.info(`Compiling new binaries: PHP ${phpVersion} to be installed in ${absoluteInstallPath}`);
-                yield (0, exec_1.exec)(buildShPath, [phpVersion, absoluteInstallPath]);
+                yield (0, exec_1.exec)(buildShPath, [
+                    phpVersion,
+                    absoluteInstallPath,
+                    pthreadsVersion
+                ]);
                 core.info('Storing cache');
                 yield cache.saveCache([absoluteInstallPath], primaryCacheKey);
             }

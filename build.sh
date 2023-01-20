@@ -2,6 +2,7 @@
 
 VERSION="$1"
 INSTALL_DIR="$2"
+PTHREADS="$3"
 
 if [[ "$VERSION" == "" ]]; then
 	echo "No version specified"
@@ -60,7 +61,7 @@ echo '"leveldb",,"https://github.com/pmmp/php-leveldb.git",,"--with-leveldb='$IN
 echo '"chunkutils2",,"https://github.com/pmmp/ext-chunkutils2.git",,,"extension",' >> share/php-build/extension/definition
 echo '"morton",,"https://github.com/pmmp/ext-morton.git",,,"extension",' >> share/php-build/extension/definition
 PHP_BUILD_INSTALL_EXTENSION="\
-pthreads=@4.2.0 \
+pthreads=@$PTHREADS \
 yaml=2.2.2 \
 leveldb=@317fdcd8415e1566fc2835ce2bdb8e19b890f9f3 \
 chunkutils2=@0.3.3 \
