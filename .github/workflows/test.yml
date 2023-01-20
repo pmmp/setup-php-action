@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: [8.0.21, 8.1.8]
+        php: [8.0.27, 8.1.14, 8.2.1]
     steps:
       - uses: actions/checkout@v3
       - uses: ./
