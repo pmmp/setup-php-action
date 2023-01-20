@@ -16,16 +16,23 @@ jobs:
       - run: |
           npm run all
   test: # make sure the action works on a clean machine without building
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
-        php: [8.0.21, 8.1.8]
+        php: [8.0.27, 8.1.14, 8.2.1]
     steps:
       - uses: actions/checkout@v3
       - uses: ./
         with:
           php-version: ${{ matrix.php }}
           install-path: ${{ github.workspace }}/bin
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: logs-${{ matrix.php }}
+          path: /tmp/php-build.${{ matrix.php }}.*.log
 
       - name: Test that that PHP has been added to PATH correctly
         run: which php | grep '${{ github.workspace }}/bin'
