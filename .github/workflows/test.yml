@@ -27,6 +27,13 @@ jobs:
           php-version: ${{ matrix.php }}
           install-path: ${{ github.workspace }}/bin
 
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: logs-${{ matrix.php }}
+          path: /tmp/php-build.${{ matrix.php }}.*.log
+
       - name: Test that that PHP has been added to PATH correctly
         run: which php | grep '${{ github.workspace }}/bin'
 
