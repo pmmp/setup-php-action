@@ -20,12 +20,15 @@ jobs:
     strategy:
       matrix:
         php: [8.0.27, 8.1.14, 8.2.1]
+        pm-version-major: [4, 5]
+
     steps:
       - uses: actions/checkout@v3
       - uses: ./
         with:
           php-version: ${{ matrix.php }}
           install-path: ${{ github.workspace }}/bin
+          pm-version-major: ${{ matrix.pm-version-major }}
 
       - name: Upload logs
         if: always()

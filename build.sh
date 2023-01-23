@@ -2,7 +2,7 @@
 
 VERSION="$1"
 INSTALL_DIR="$2"
-PTHREADS="$3"
+PM_VERSION_MAJOR="$3"
 
 if [[ "$VERSION" == "" ]]; then
 	echo "No version specified"
@@ -10,6 +10,10 @@ if [[ "$VERSION" == "" ]]; then
 fi
 if [[ "$INSTALL_DIR" == "" ]]; then
        echo "No install path specified"
+       exit 1
+fi
+if [[ "$PM_VERSION_MAJOR" == "" ]]; then
+       echo "No PocketMine-MP major version specified"
        exit 1
 fi
 
@@ -56,6 +60,13 @@ rm -rf php-build
 git clone https://github.com/pmmp/php-build.git
 cd php-build
 ./install-dependencies.sh
+
+if [[ "$PM_VERSION_MAJOR" -ge "5" ]]; then
+	PTHREADS="5.1.1"
+else
+	PTHREADS="4.2.0"
+fi
+echo $PTHREADS
 echo '"pthreads",,"https://github.com/pmmp/pthreads.git",,,"extension",' >> share/php-build/extension/definition
 echo '"leveldb",,"https://github.com/pmmp/php-leveldb.git",,"--with-leveldb='$INSTALL_DIR'","extension",' >> share/php-build/extension/definition
 echo '"chunkutils2",,"https://github.com/pmmp/ext-chunkutils2.git",,,"extension",' >> share/php-build/extension/definition

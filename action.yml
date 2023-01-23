@@ -8,10 +8,10 @@ inputs:
   install-path:
     required: true
     description: 'Path to install the binary to'
-  pthreads-version:
+  pm-version-major:
     required: false
-    description: 'Version of pthreads to install'
-    default: '4.2.0'
+    description: 'Major version of PocketMine-MP to compile extensions for'
+    default: 4
 
 runs:
   using: 'node16'
