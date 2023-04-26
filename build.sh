@@ -62,7 +62,7 @@ cd php-build
 ./install-dependencies.sh
 
 if [[ "$PM_VERSION_MAJOR" -ge "5" ]]; then
-	PTHREADS="5.1.4"
+	PTHREADS="5.3.1"
 else
 	PTHREADS="4.2.0"
 fi
