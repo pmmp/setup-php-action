@@ -62,17 +62,18 @@ cd php-build
 ./install-dependencies.sh
 
 if [[ "$PM_VERSION_MAJOR" -ge "5" ]]; then
-	PTHREADS="5.3.1"
+	EXTRA_EXTENSIONS="pmmpthread=@6.0.0-beta1"
 else
-	PTHREADS="4.2.0"
+	EXTRA_EXTENSIONS="pthreads=@5.3.1"
 fi
 echo $PTHREADS
-echo '"pthreads",,"https://github.com/pmmp/pthreads.git",,,"extension",' >> share/php-build/extension/definition
+echo '"pthreads",,"https://github.com/pmmp/ext-pmmpthread.git",,,"extension",' >> share/php-build/extension/definition
+echo '"pmmpthread",,"https://github.com/pmmp/ext-pmmpthread.git",,,"extension",' >> share/php-build/extension/definition
 echo '"leveldb",,"https://github.com/pmmp/php-leveldb.git",,"--with-leveldb='$INSTALL_DIR'","extension",' >> share/php-build/extension/definition
 echo '"chunkutils2",,"https://github.com/pmmp/ext-chunkutils2.git",,,"extension",' >> share/php-build/extension/definition
 echo '"morton",,"https://github.com/pmmp/ext-morton.git",,,"extension",' >> share/php-build/extension/definition
 PHP_BUILD_INSTALL_EXTENSION="\
-pthreads=@$PTHREADS \
+$EXTRA_EXTENSIONS \
 yaml=2.2.2 \
 leveldb=@317fdcd8415e1566fc2835ce2bdb8e19b890f9f3 \
 chunkutils2=@0.3.3 \
