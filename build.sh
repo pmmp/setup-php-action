@@ -62,7 +62,7 @@ cd php-build
 ./install-dependencies.sh
 
 if [[ "$PM_VERSION_MAJOR" -ge "5" ]]; then
-	EXTRA_EXTENSIONS="pmmpthread=@6.0.0-beta1"
+	EXTRA_EXTENSIONS="pmmpthread=@6.0.0"
 else
 	EXTRA_EXTENSIONS="pthreads=@5.3.1"
 fi
@@ -74,11 +74,11 @@ echo '"chunkutils2",,"https://github.com/pmmp/ext-chunkutils2.git",,,"extension"
 echo '"morton",,"https://github.com/pmmp/ext-morton.git",,,"extension",' >> share/php-build/extension/definition
 PHP_BUILD_INSTALL_EXTENSION="\
 $EXTRA_EXTENSIONS \
-yaml=2.2.2 \
+yaml=2.2.3 \
 leveldb=@317fdcd8415e1566fc2835ce2bdb8e19b890f9f3 \
-chunkutils2=@0.3.3 \
+chunkutils2=@0.3.5 \
 morton=@0.1.2 \
-igbinary=3.2.12 \
+igbinary=3.2.14 \
 crypto=0.3.2 \
 " PHP_BUILD_ZTS_ENABLE=on PHP_BUILD_CONFIGURE_OPTS='--with-gmp' ./bin/php-build "$VERSION" "$INSTALL_DIR" || exit 1
 
