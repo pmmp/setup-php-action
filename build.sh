@@ -64,7 +64,7 @@ cd php-build
 if [[ "$PM_VERSION_MAJOR" -ge "5" ]]; then
 	EXTRA_EXTENSIONS="pmmpthread=@6.0.0"
 else
-	EXTRA_EXTENSIONS="pthreads=@5.3.1"
+	EXTRA_EXTENSIONS="pthreads=@4.2.1"
 fi
 echo $PTHREADS
 echo '"pthreads",,"https://github.com/pmmp/ext-pmmpthread.git",,,"extension",' >> share/php-build/extension/definition
