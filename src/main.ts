@@ -40,10 +40,7 @@ async function run(): Promise<void> {
       )
     } else if (extensionDirCandidates.length === 1) {
       //the directory might not exist if there are no shared extensions
-      const extensionDir = path.join(
-        extensionDirParent,
-        extensionDirCandidates[0]
-      )
+      const extensionDir = extensionDirCandidates[0]
       const phpIniPath = path.join(binaryDir, 'bin', 'php7', 'bin', 'php.ini')
       const phpIniRaw = await fs.readFile(phpIniPath, 'utf-8')
       if (phpIniRaw.match(/^extension_dir.+$/m)) {
