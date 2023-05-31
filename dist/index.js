@@ -62,8 +62,9 @@ function run() {
             if (extensionDirCandidates.length > 1) {
                 throw new Error(`Expected exactly 1 extension directory, but have ${extensionDirCandidates.length}`);
             }
-            else if (extensionDirCandidates.length === 1) { //the directory might not exist if there are no shared extensions
-                const extensionDir = path.join(extensionDirParent, extensionDirCandidates[0]);
+            else if (extensionDirCandidates.length === 1) {
+                //the directory might not exist if there are no shared extensions
+                const extensionDir = extensionDirCandidates[0];
                 const phpIniPath = path.join(binaryDir, 'bin', 'php7', 'bin', 'php.ini');
                 const phpIniRaw = yield fs_1.promises.readFile(phpIniPath, 'utf-8');
                 if (phpIniRaw.match(/^extension_dir.+$/m)) {
@@ -72,7 +73,7 @@ function run() {
                 }
                 else {
                     core.info(`Adding extension_dir to php.ini: "${extensionDir}"`);
-                    yield fs_1.promises.writeFile(phpIniPath, phpIniRaw.concat("\n", `extensiondir="${extensionDir}"`, "\n"));
+                    yield fs_1.promises.writeFile(phpIniPath, phpIniRaw.concat('\n', `extensiondir="${extensionDir}"`, '\n'));
                 }
             }
             const composerUrl = 'https://getcomposer.org/download/latest-2.x/composer.phar';
