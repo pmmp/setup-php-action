@@ -1,16 +1,16 @@
 name: 'Setup PHP for PocketMine-MP'
-description: 'Build and install PHP for PocketMine-MP and related projects'
+description: 'Install PHP and Composer for PocketMine-MP and related projects'
 author: 'pmmp'
 inputs:
   php-version:
     required: true
-    description: 'PHP version to build and install'
+    description: 'PHP version to install, e.g. "8.1" - see all available at https://github.com/pmmp/PHP-Binaries/releases?q=latest'
   install-path:
     required: true
     description: 'Path to install the binary to'
   pm-version-major:
     required: false
-    description: 'Major version of PocketMine-MP to compile extensions for'
+    description: 'Major version of PocketMine-MP to install PHP for, e.g. "4"'
     default: 4
 
 runs:
