@@ -56,7 +56,7 @@ async function run(): Promise<void> {
         core.info(`Adding extension_dir to php.ini: "${extensionDir}"`)
         await fs.writeFile(
           phpIniPath,
-          phpIniRaw.concat('\n', `extensiondir="${extensionDir}"`, '\n')
+          phpIniRaw.concat('\n', `extension_dir="${extensionDir}"`, '\n')
         )
       }
     }
