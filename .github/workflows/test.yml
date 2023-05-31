@@ -14,12 +14,13 @@ jobs:
       - run: |
           npm run all
   test: # make sure the action works on a clean machine without building
-    name: Test (PHP ${{ matrix.php }} PM ${{ matrix.pm-version-major }})
-    runs-on: ubuntu-20.04
+    name: Test (PHP ${{ matrix.php }}, PM ${{ matrix.pm-version-major }}, ${{ matrix.image }})
+    runs-on: ${{ matrix.image }}
     strategy:
       matrix:
-        php: [8.1.14, 8.2.1]
+        php: [8.1, 8.2]
         pm-version-major: [4, 5]
+        image: [ubuntu-20.04, ubuntu-22.04, ubuntu-latest]
 
     steps:
       - uses: actions/checkout@v3
@@ -29,15 +30,14 @@ jobs:
           install-path: ${{ github.workspace }}/bin
           pm-version-major: ${{ matrix.pm-version-major }}
 
-      - name: Upload logs
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: logs-${{ matrix.php }}
-          path: /tmp/php-build.${{ matrix.php }}.*.log
-
       - name: Test that that PHP has been added to PATH correctly
         run: which php | grep '${{ github.workspace }}/bin'
 
       - name: Test that PHP is installed and working
         run: php -i
+
+      - name: Test that Composer has been added to PATH correctly
+        run: which composer | grep '${{ github.workspace }}/bin'
+
+      - name: Test that Composer is installed and working
+        run: composer --version
