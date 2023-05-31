@@ -10,6 +10,6 @@ This is currently used internally for PM's own CIs, and perhaps by plugins in th
 ## Inputs
 | Name | Required | Possible values | Description |
 |:-----|:--------:|:----------------|:------------|
-| `php-version` | YES | Any version available in [`pmmp/php-build`](https://github.com/pmmp/php-build/tree/auto/share/php-build/definitions) | PHP version, must be a full `major.minor.patch` |
+| `php-version` | YES | Any version available in [`pmmp/PHP-Binaries`](https://github.com/pmmp/PHP-Binaries) (currently `8.1` and `8.2`) | PHP version, must be a full `major.minor.patch` |
 | `install-path` | YES | Folder path | Path to install the binary into (e.g. `./bin`) |
 | `pm-version-major` | NO | `4`, `5` | Major version of [PocketMine-MP](https://github.com/pmmp/PocketMine-MP) to build extensions for |
