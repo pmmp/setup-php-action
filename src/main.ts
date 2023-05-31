@@ -2,6 +2,7 @@ import * as core from '@actions/core'
 import * as path from 'path'
 import * as toolCache from '@actions/tool-cache'
 import {promises as fs} from 'fs'
+import {glob} from 'glob'
 
 async function run(): Promise<void> {
   try {
@@ -20,6 +21,49 @@ async function run(): Promise<void> {
       binaryTarballPath,
       absoluteInstallPath
     )
+
+    core.info('Looking for extensions dir')
+    const extensionDirParent: string = path.join(
+      binaryDir,
+      'bin',
+      'php7',
+      'lib',
+      'php',
+      'extensions'
+    )
+    const extensionDirCandidates: string[] = await glob(
+      `${extensionDirParent}/*debug-zts*`
+    )
+    if (extensionDirCandidates.length > 1) {
+      throw new Error(
+        `Expected exactly 1 extension directory, but have ${extensionDirCandidates.length}`
+      )
+    } else if (extensionDirCandidates.length === 1) {
+      //the directory might not exist if there are no shared extensions
+      const extensionDir = path.join(
+        extensionDirParent,
+        extensionDirCandidates[0]
+      )
+      const phpIniPath = path.join(binaryDir, 'bin', 'php7', 'bin', 'php.ini')
+      const phpIniRaw = await fs.readFile(phpIniPath, 'utf-8')
+      if (phpIniRaw.match(/^extension_dir.+$/m)) {
+        core.info(`Replacing extension_dir in php.ini: "${extensionDir}"`)
+        await fs.writeFile(
+          phpIniPath,
+          phpIniRaw.replace(
+            /^extension_dir.+$/,
+            'extension_dir="${extensionDir}"'
+          )
+        )
+      } else {
+        core.info(`Adding extension_dir to php.ini: "${extensionDir}"`)
+        await fs.writeFile(
+          phpIniPath,
+          phpIniRaw.concat('\n', `extensiondir="${extensionDir}"`, '\n')
+        )
+      }
+    }
+
     const composerUrl =
       'https://getcomposer.org/download/latest-2.x/composer.phar'
     core.info(`Downloading latest Composer 2.x version: ${composerUrl}`)
