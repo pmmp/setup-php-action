@@ -4,8 +4,11 @@
 
 # setup-php-action
 
-This action builds and installs PHP with the needed extensions for [PocketMine-MP](https://github.com/pmmp/PocketMine-MP).
-This is currently used internally for PM's own CIs, and perhaps by plugins in the future.
+This action installs PHP and Composer for [PocketMine-MP](https://github.com/pmmp/PocketMine-MP) from [pmmp/PHP-Binaries releases](https://github.com/pmmp/PHP-Binaries/releases).
+
+This is used internally for PM's own CIs, and can also be used by plugins using GitHub Actions.
+
+Currently only supported on Linux, but MacOS and Windows support is planned for the future.
 
 ## Inputs
 | Name | Required | Possible values | Description |
