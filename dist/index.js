@@ -73,7 +73,7 @@ function run() {
                 }
                 else {
                     core.info(`Adding extension_dir to php.ini: "${extensionDir}"`);
-                    yield fs_1.promises.writeFile(phpIniPath, phpIniRaw.concat('\n', `extensiondir="${extensionDir}"`, '\n'));
+                    yield fs_1.promises.writeFile(phpIniPath, phpIniRaw.concat('\n', `extension_dir="${extensionDir}"`, '\n'));
                 }
             }
             const composerUrl = 'https://getcomposer.org/download/latest-2.x/composer.phar';
