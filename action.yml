@@ -11,7 +11,7 @@ inputs:
   pm-version-major:
     required: false
     description: 'Major version of PocketMine-MP to install PHP for, e.g. "4"'
-    default: 4
+    default: 5
 
 runs:
   using: 'node20'
