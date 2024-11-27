@@ -52,7 +52,7 @@ function run() {
             const absoluteInstallPath = path.resolve(installPath);
             const pmVersionMajor = core.getInput('pm-version-major');
             //TODO: MacOS and Windows support
-            const binaryTarballUrl = `https://github.com/pmmp/PHP-Binaries/releases/download/php-${phpVersion}-latest/PHP-Linux-x86_64-PM${pmVersionMajor}.tar.gz`;
+            const binaryTarballUrl = `https://github.com/pmmp/PHP-Binaries/releases/download/pm${pmVersionMajor}-php-${phpVersion}-latest/PHP-${phpVersion}-Linux-x86_64-PM${pmVersionMajor}.tar.gz`;
             core.info(`Downloading PHP binary: ${binaryTarballUrl}`);
             const binaryTarballPath = yield toolCache.downloadTool(binaryTarballUrl);
             const binaryDir = yield toolCache.extractTar(binaryTarballPath, absoluteInstallPath);
