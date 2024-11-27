@@ -18,7 +18,7 @@ jobs:
     runs-on: ${{ matrix.image }}
     strategy:
       matrix:
-        php: ["8.0", "8.1", "8.2"]
+        php: ["8.0", "8.1", "8.2", "8.3"]
         pm-version-major: [4, 5]
         image: [ubuntu-20.04, ubuntu-22.04, ubuntu-latest]
         exclude:
